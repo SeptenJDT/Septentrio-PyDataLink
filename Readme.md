@@ -69,7 +69,7 @@ The second major feature of this version is that the code is entirely open sourc
 <br>
 
 These are the major features of PyDataLink:
- - Connecivity for up to 6 parallel connections: TCP , UDP , Serial: Handy for GNSS receivers or other sensors/systems
+ - Connectivity for up to 6 parallel connections: TCP , UDP , Serial: Handy for GNSS receivers or other sensors/systems
  - Support for NTRIP Client including TLS support
  - Logging of data passing through the connection
  - Automatic configuration scrips at connection and/or disconnection (handy to automatically configure GNSS receivers or other sensors)
@@ -125,10 +125,10 @@ After the build is successfully completed , a executable file will be generated
 # How to use guides
 
 As this project is open source, two guides are available: 
-- a guide for users which describe all the available functionnalities
+- a guide for users which describe all the available functionalities
 - a developer's guide which explains how the program is structured and how it works 
 
-The purpose of the user guide is to explain how to install the application, how to use it and also to present the various functionnalities. 
+The purpose of the user guide is to explain how to install the application, how to use it and also to present the various functionalities. 
 
 <div align="center">
 
@@ -138,7 +138,7 @@ The purpose of the user guide is to explain how to install the application, how 
 </div>
 
 
-The purpose of the development guide is to explain how the code is structured, how the programme works and how it was made. This guide is mainly intended for people who want to keep the programme up to date. 
+The purpose of the development guide is to explain how the code is structured, how the program works and how it was made. This guide is mainly intended for people who want to keep the program up to date. 
 
 <div align="center">
 
@@ -149,7 +149,7 @@ The purpose of the development guide is to explain how the code is structured, h
 
 ## Informations
 ### Tested Platforms
-The current version of pyDatalink has been tested on the following plateform :
+The current version of pyDatalink has been tested on the following platform :
 - Raspberry Pi OS 64bit with Desktop - kernel : 6.6 ( Raspberry pi 4)
 - Windows 10 *(GUI & CMD only)*
 
@@ -163,7 +163,3 @@ The current version of pyDatalink has been tested with the following packages ve
 - shiboken6 6.7.0
 - simple-term-menu 1.6.4
 - typing_extensions 4.11.0
-
-
-
-
