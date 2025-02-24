@@ -177,9 +177,10 @@ class Stream:
                     try:
                         self.stream = self.serial_settings.connect()
                         self.connected = True
+                        self.stream_type = StreamType.Serial
                         task = self.datalink_serial_task
                         if self.log_file is not None :
-                            self.log_file.info("Stream %s : Stream openned successfully " , self.stream_id)
+                            self.log_file.info("Stream %s : Stream opened successfully " , self.stream_id)
                     except SerialSettingsException as e:
                         if self.log_file is not None :
                             self.log_file.error("Stream %s : Failed to connect to the serial port : %s" , self.stream_id,e)
@@ -199,12 +200,13 @@ class Stream:
                         socket.gethostbyname(self.tcp_settings.host)
                         self.stream = self.tcp_settings.connect()
                         self.connected = True
+                        self.stream_type = StreamType.TCP
                         if self.tcp_settings.stream_mode == StreamMode.SERVER:
                             task = self.datalink_tcp_server_task
                         else :
                             task = self.datalink_tcp_client_task
                         if self.log_file is not None :
-                            self.log_file.info("Stream %s : Stream openned successfully " , self.stream_id)
+                            self.log_file.info("Stream %s : Stream opened successfully " , self.stream_id)
                     except TCPSettingsException as e :
                         self.stream = None
                         self.connected = False
@@ -220,11 +222,12 @@ class Stream:
                 else:
                     try:
                         self.connected = True
+                        self.stream_type = StreamType.UDP
                         socket.gethostbyname(self.tcp_settings.host)
                         self.stream = self.udp_settings.connect()
                         task = self.datalink_udp_task
                         if self.log_file is not None :
-                            self.log_file.info("Stream %s : Stream openned successfully " , self.stream_id)
+                            self.log_file.info("Stream %s : Stream opened successfully " , self.stream_id)
                     except UDPSettingsException as e:
                         self.stream = None
                         self.connected = False
@@ -235,20 +238,21 @@ class Stream:
             elif stream_type == StreamType.NTRIP:
                 if self.ntrip_client is None or len(self.ntrip_client.ntrip_settings.host.replace(" ","")) == 0 :
                     if self.log_file is not None :
-                        self.log_file.error("Stream %s : Failed to open NTRIP stream : Incorect Settings " , self.stream_id)
-                    raise MissingSettingsException("ntrip client is not set !")
+                        self.log_file.error("Stream %s : Failed to open NTRIP stream : Incorrect Settings " , self.stream_id)
+                    raise MissingSettingsException("Ntrip client is not set !")
                 else:
                     try:
                         socket.gethostbyname(self.ntrip_client.ntrip_settings.host)
                         self.ntrip_client.connect()
                         self.stream = self.ntrip_client
                         self.connected = True
+                        self.stream_type = StreamType.NTRIP
                         task = self.datalink_ntrip_task
                         if self.ntrip_client.ntrip_settings.fixed_pos:
                             self.ntrip_client.create_gga_string()
 
                         if self.log_file is not None :
-                            self.log_file.info("Stream %s : Stream openned successfully " , self.stream_id)
+                            self.log_file.info("Stream %s : Stream opened successfully " , self.stream_id)
                     except (NtripClientError,NtripSettingsException) as e:
                         self.stream = None
                         self.connected = False
@@ -256,10 +260,12 @@ class Stream:
                             self.log_file.error("Stream %s : Failed to open NTRIP stream: %s" , self.stream_id,e)
                         raise OpenConnectionError(f"Failed to open NTRIP Stream : {e}") from e
             elif stream_type == StreamType.NONE :
+                self.stream_type = StreamType.NONE
                 if self.log_file is not None :
                     self.log_file.error("Stream %s : no configuration yet " , self.stream_id)
                     raise InvalidStreamTypeException(" No configuration selected ")
             else:
+                self.stream_type = StreamType.NONE
                 if self.log_file is not None :
                     self.log_file.error("Stream %s : Invalid Stream Type " , self.stream_id)
                 raise InvalidStreamTypeException(f" {stream_type.name} is not a valid Stream type !")
@@ -510,7 +516,7 @@ class Stream:
         Args:
             new_file_name (str): the new file name of the logging file
         """
-        if os.path.exists(new_file_name):
+        if os.path.dirname(new_file_name) == "" or os.path.exists(os.path.dirname(new_file_name)):
             self.logging_file = new_file_name
         else :
             if self.log_file is not None :

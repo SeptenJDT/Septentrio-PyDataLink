@@ -748,8 +748,8 @@ class ConfigureInterface(QDialog) :
         cert_select_file.setToolTip("Only .cer, .crt, .pem or .key Files are allowed")
         tls_box_layout.addLayout(pair_h_widgets(cert_label,self.cert,cert_select_file))
 
-        # Authentification Box
-        auth_box = QGroupBox("Authentification")
+        # Authentication Box
+        auth_box = QGroupBox("Authentication")
         auth_box.setCheckable(True)
         auth_box.setChecked(self.stream.ntrip_client.ntrip_settings.auth)
 

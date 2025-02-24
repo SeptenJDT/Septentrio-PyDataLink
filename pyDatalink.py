@@ -116,7 +116,7 @@ class DatalinkApp:
         """
         if os.name == "posix" and TUI:
             self.user_interface = TerminalUserInterface(self.app)
-            sys.exit(self.user_interface.MainMenu())
+            sys.exit(self.user_interface.main_menu())
         elif not TUI:
             print("simple-Term-menu is required to run in TUI mode \nInstall Simple-Term-Menu : pip install simple-term-menu\nOr run the App in a Different mode (-m GUI or -m CMD)")
         else :

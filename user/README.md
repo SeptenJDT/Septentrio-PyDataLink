@@ -191,7 +191,7 @@ python pyDatalink.py -m TUI
 On this menu you can find the following items :
 
 * [Configuration](#Configure)
-* [connect / disconnect](#connect-disconnect)
+* [Connect / Disconnect](#connect-disconnect)
 * [ShowData](#Show-Data)
 * [Link](#Link)
 * [Preferences](#Preferences)
@@ -230,8 +230,8 @@ The Configure menu allow you to choose the type of communication you want to use
 ### NTRIP Settings
 | Parameter | Possible Values | Default Value | Description |
 |:-----------:|:-----------------:|:---------------:|:-------------:|
-| User | any User Name |- | username used for the authentification with the ntrip server |
-| Password | Any Password | - | Password used for the authentification with the ntrip server |
+| User | any User Name |- | username used for the authentication with the ntrip server |
+| Password | Any Password | - | Password used for the authentication with the ntrip server |
 | Hostname      | Any hostname given by a ntrip service provider | -   | The Hostname of the ntrip service provider |
 | Port      | Any available port | - | The port number of the ntrip service provider |
 | MountPoint | *Contact your ntrip service provider* | - | Mountpoint of the ntrip server , depend on the provider |
@@ -264,7 +264,7 @@ This menu allows you to change some parameters of the app. This parameter can ra
 | Parameter | Possible Values | Default Value | Description |
 |:-----------:|:-----------------:|:---------------:|:-------------:|
 | Number of stream | from 1 to 6 | **6**  | Number of stream that you can configure |
-| Password | Any Password | - | Password used for the authentification with the ntrip server |
+| Password | Any Password | - | Password used for the authentication with the ntrip server |
 | Hostname      | Any hostname given by a ntrip service provider | -   | The Hostname of the ntrip service provider |
 | Port      | Any available port | - | The port number of the ntrip service provider |
 | MountPoint | *Contact your ntrip service provider* | - | Mountpoint of the ntrip server , depend on the provider |

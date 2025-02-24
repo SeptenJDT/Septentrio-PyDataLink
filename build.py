@@ -37,7 +37,7 @@ pyinstaller_command = [
     '--clean',
     '--noconfirm',
     '--noconsole',
-    '--add-data=' + DATAFILESPATH +';data',
+    '--add-data=' + DATAFILESPATH +':data',
     script_name
 ]
 try :
