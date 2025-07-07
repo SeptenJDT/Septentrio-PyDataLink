@@ -444,7 +444,7 @@ class ConfigureInterface(QDialog) :
 
         open_script_check_box = QCheckBox()
         open_script_check_box.setChecked(self.stream.send_startup_script)
-        open_script_label = QLabel("connect Script : ")
+        open_script_label = QLabel("Connect Script :")
         open_script_edit = QLineEdit()
         open_script_edit.setDisabled(not self.stream.send_startup_script)
         open_script_edit.setText(self.stream.startup_script)
@@ -496,7 +496,7 @@ class ConfigureInterface(QDialog) :
                 available_port_list.addItem(port[0].replace("/dev/ttyACM","COM") + " - " + port[1].split("-")[0],port[0])
             available_port_list.setCurrentIndex(-1)
         else :
-            available_port_list.addItem("no com port detected")
+            available_port_list.addItem("No COM port detected")
             available_port_list.setDisabled(True)
         if self.stream.serial_settings.port != "":
             index = available_port_list.findData(self.stream.serial_settings.port)
@@ -985,7 +985,7 @@ class ShowDataInterface(QDialog):
         self.send_command_edit.returnPressed.connect(lambda  : self.send_command(self.send_command_edit.text()))
         show_data = QComboBox()
         show_data.addItem("All Data")
-        show_data.addItem("Only incomming Data")
+        show_data.addItem("Only incoming Data")
         show_data.addItem("Only outgoing Data")
         show_data.setCurrentIndex(0)
         show_data.currentIndexChanged.connect(lambda e : self.change_data_visibility(e))
@@ -1130,7 +1130,7 @@ class PreferencesInterface(QDialog):
 
         # connect list
 
-        startup_connect_box = QGroupBox("connect at Startup")
+        startup_connect_box = QGroupBox("Connect at Startup")
         startup_connect_layout = QVBoxLayout(startup_connect_box)
         startup_connect_label = QLabel("Select the ports that should auto connect at startup")
         startup_connect_layout.addWidget(startup_connect_label)
@@ -1169,7 +1169,7 @@ class PreferencesInterface(QDialog):
         """
         startup_connect_final_layout = QVBoxLayout()
         for port_id in range(6):
-            new_check_box = QCheckBox(f"connect {port_id}")
+            new_check_box = QCheckBox(f"Connect {port_id}")
             if self.preference.connect[port_id] :
                 new_check_box.setChecked(True)
             new_check_box.stateChanged.connect(lambda state,x=port_id : self.toggle_startup_connection(x))

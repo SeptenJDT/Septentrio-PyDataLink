@@ -427,6 +427,10 @@ class Stream:
         """
         send a command to ouput
         """
+        self.log_file.info("Line termination %s ",self.line_termination)
+        if not command.endswith(self.line_termination):
+            command += self.line_termination
+        self.log_file.error("Sendcommand with line termination %s ",command)
         self.linked_data[self.stream_id].put(command)
     # Getter & Setter
 
