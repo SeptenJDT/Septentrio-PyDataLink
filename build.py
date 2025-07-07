@@ -13,8 +13,16 @@ requirements_file = 'requirements.txt'
 spec_file = APPNAME + '.spec'
 venv_dir = 'venv'
 
-print('Create a virtual environment')
-venv.create(venv_dir, with_pip=True)
+import os
+import venv
+
+venv_dir = "venv"
+
+if not os.path.exists(os.path.join(venv_dir, "bin", "python")):
+    print("Creating virtual environment...")
+    venv.create(venv_dir, with_pip=True)
+else:
+    print("Virtual environment already exists. Skipping creation.")
 
 print('Activate virtual environment')
 
