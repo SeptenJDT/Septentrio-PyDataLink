@@ -1118,6 +1118,16 @@ class PreferencesInterface(QDialog):
         line_termination_combobox.addItem("<LF>","\r")
         line_termination_combobox.addItem("<CR><LF>","\n\r")
         general_layout.addLayout(pair_h_widgets(line_termination_label,line_termination_combobox))
+        match self.preference.get_line_termination():
+            case "\\n":
+                line_termination_combobox.setCurrentIndex(0) 
+            case "\\r":    
+                line_termination_combobox.setCurrentIndex(1)
+            case "\\n\\r":
+                line_termination_combobox.setCurrentIndex(2)
+            case _:
+                line_termination_combobox.setCurrentIndex(0)
+                self.preference.set_line_termination("\n")
 
         #Number of streams
         max_stream_label = QLabel("Number of Port Panels")
