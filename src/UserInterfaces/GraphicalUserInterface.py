@@ -245,7 +245,7 @@ class ConnectionCard :
         self.current_data_transfert.setText(f"In: {self.stream.data_transfer_input} kBps | Out: {self.stream.data_transfer_output} kBps")
         self.current_data_transfert.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.current_data_transfert.setStyleSheet("QWidget { border: 2px solid grey; }")
-        self.current_data_transfert.setFixedSize(160,24)
+        self.current_data_transfert.setFixedSize(180,24)
 
         #showdata
         
@@ -276,7 +276,7 @@ class ConnectionCard :
 
         #Init in case of Startup connect
         if self.stream.is_connected():
-            self.connect_button.setText("Disonnect")
+            self.connect_button.setText("Disconnect")
             self.configure_button.setDisabled(True)
             self.status.setText("CONNECTED")
             self.status.setStyleSheet("QLabel {color : #32a852; font-weight: bold;}")
@@ -962,6 +962,38 @@ class ConfigureInterface(QDialog) :
                 self.stream.ntrip_client.ntrip_settings.set_cert(file_name[0])
                 self.cert.setText(file_name[0])
  
+
+class CommandLineEdit(QLineEdit):
+    def __init__(self, parent=None, send_callback=None):
+        super().__init__(parent)
+        self.history = []
+        self.history_index = -1
+        self.send_callback = send_callback
+
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == 16777235:  # Up arrow
+            if self.history and self.history_index > 0:
+                self.history_index -= 1
+                self.setText(self.history[self.history_index])
+        elif key == 16777237:  # Down arrow
+            if self.history and self.history_index < len(self.history) - 1:
+                self.history_index += 1
+                self.setText(self.history[self.history_index])
+            else:
+                self.clear()
+                self.history_index = len(self.history)
+        elif key == 16777220:  # Enter key
+            command = self.text()
+            if command:
+                if self.send_callback:
+                    self.send_callback(command)
+                self.history.append(command)
+                self.history_index = len(self.history)
+                self.clear()
+        else:
+            super().keyPressEvent(event)
+
 class ShowDataInterface(QDialog):
 
     def __init__(self,stream : Stream) -> None:
@@ -981,8 +1013,7 @@ class ShowDataInterface(QDialog):
         self.stream.show_incoming_data.set()
         self.stream.show_outgoing_data.set()
 
-        self.send_command_edit = QLineEdit()
-        self.send_command_edit.returnPressed.connect(lambda  : self.send_command(self.send_command_edit.text()))
+        self.send_command_edit = CommandLineEdit(send_callback = self.send_command)
         show_data = QComboBox()
         show_data.addItem("All Data")
         show_data.addItem("Only incoming Data")

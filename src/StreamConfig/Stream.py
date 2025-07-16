@@ -960,6 +960,7 @@ class Stream:
         try:
             if self.ntrip_client.ntrip_settings.fixed_pos :
                 self.linked_data[self.stream_id].put(self.ntrip_client.fixed_pos_gga)
+                last_gga_time = time.time()
             if not self.linked_data[self.stream_id].empty():
                 task_send_command(self.linked_data[self.stream_id],ntrip ,logger=logger,line_termination=self.line_termination)
         except TaskException as e :
@@ -994,7 +995,11 @@ class Stream:
                         if linked_ports is not None:
                             for portid in linked_ports:
                                 linked_data[portid].put(incoming_data.decode(encoding='ISO-8859-1'))
-                    #Send output data comming from other streams and print data if showdata is set
+                    #Send a new GGA to the NTRIP every minute to avoid that the data stops coming during a long test
+                    if self.ntrip_client.ntrip_settings.fixed_pos and  time.time() - last_gga_time > 60 :
+                        self.linked_data[self.stream_id].put(self.ntrip_client.fixed_pos_gga)
+                        last_gga_time = time.time()
+                    #Send output data coming from other streams and print data if showdata is set
                     if not linked_data[self.stream_id].empty():
                         returnedValue = task_send_command(linked_data[self.stream_id],ntrip ,self.show_outgoing_data.is_set(),data_to_show=data_to_show,logger=logger,line_termination=self.line_termination)
                         if returnedValue is not None :
